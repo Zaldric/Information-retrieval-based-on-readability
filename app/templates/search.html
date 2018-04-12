@@ -1,16 +1,17 @@
 {% extends "base.html" %}
-{% block content %}
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.query(size=32) }}
-            {% for error in form.query.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-            <p>{{ form.submit() }}</p>
-        </p>
-            <p>
-                {{ form.theme }}
-            </p>
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <form class="form form-horizontal" method="post" role="form">
+        <div class="row center-block">
+            <div class="col-md-2"></div>
+            <div class="col-md-6" style="align-content: center;">
+                {{ wtf.form_field(form.query) }}
+            </div>
+            <div class="col-md-1" style="padding-top: 20px;">
+                {{ wtf.form_field(form.submit) }}
+            </div>
+            <div class="col-md-3"></div>
+        </div>
     </form>
 {% endblock %}
