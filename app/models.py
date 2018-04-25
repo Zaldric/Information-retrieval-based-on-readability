@@ -24,3 +24,14 @@ class Themes(db.Model):
 
     def __repr__(self):
         return '<Theme: {}>'.format(self.theme)
+
+
+class Model:
+
+    @staticmethod
+    def get_themes():
+        themes = Themes.query.all()
+        if themes:
+            return themes
+        else:
+            return None

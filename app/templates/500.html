@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <h1>An unexpected error has occurred</h1>
-    <p>The administrator has been notified. Sorry for the inconvenience!</p>
-    <p><a href="{{ url_for('index') }}">Back</a></p>
+    <h1>{{ _('Ha ocurrido un error inesperado') }}</h1>
+    <p>{{ _('Se ha registrado el error y notificado a un administrador. Perdone las molestias!') }}</p>
+    <p><a href="{{ url_for('index') }}">{{ _('Atrás') }}</a></p>
 {% endblock %}

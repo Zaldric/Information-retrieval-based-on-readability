@@ -1,0 +1,22 @@
+@media screen and (min-width: 992px) {
+    .search-button {
+        padding-top: 25px;
+    }
+
+    .upload-submit{
+    padding-top: 36px;
+}
+}
+
+.themes-select {
+    padding-left: 15px;
+}
+
+.upload-button {
+    padding-left: 18px;
+    padding-top: 15px;
+}
+
+.upload-files {
+    padding-top: 15px;
+}

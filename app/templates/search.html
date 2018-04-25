@@ -2,16 +2,61 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-    <form class="form form-horizontal" method="post" role="form">
-        <div class="row center-block">
+
+    {% if errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for error in errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form class="form form-group" method="post" role="form">
+        {{ form.hidden_tag() }}
+        <div class="row">
             <div class="col-md-2"></div>
-            <div class="col-md-6" style="align-content: center;">
+            <div class="col-md-7" id="search-column">
                 {{ wtf.form_field(form.query) }}
             </div>
-            <div class="col-md-1" style="padding-top: 20px;">
-                {{ wtf.form_field(form.submit) }}
+            <div class="col-md-1 search-button">
+                {{ wtf.form_field(form.submit, class='pull-right') }}
             </div>
             <div class="col-md-3"></div>
         </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div clas="col-md-7">
+                <select class="selectpicker themes-select" title={{ _('Temas') }} id="select-picker" multiple data-actions-box="true" data-width="auto">
+                    {% for theme in model %}
+                        <option value="{{ theme.id }}">{{ theme.theme }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        <div class="hidden">
+            {{ wtf.form_field(form.theme) }}
+        </div>
     </form>
+    <script type=text/javascript src="{{ url_for('static', filename='js/bootstrap-select.js') }}"></script>
+    <script type=text/javascript>
+
+    $('#select-picker').on('change',function(){
+        $(this).find("option:selected").each(function() {
+            
+            var theme_values = $(this).attr("value");
+            var array = theme_values.split(" ");
+
+            document.getElementById('submit-themes').getElementsByTagName('option')[array[0] - 1].selected = true;
+        });
+
+        $(this).find("option:not(:selected)").each(function() {
+
+            var theme_values = $(this).attr("value");
+            var array = theme_values.split(" ");
+
+            document.getElementById('submit-themes').getElementsByTagName('option')[array[0] - 1].selected = false;
+        });
+    });
+    </script>
 {% endblock %}

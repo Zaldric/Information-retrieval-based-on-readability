@@ -1,0 +1,106 @@
+# English translations for PROJECT.
+# Copyright (C) 2018 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2018-04-25 17:17+0200\n"
+"PO-Revision-Date: 2018-04-25 17:18+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.5.3\n"
+
+#: app/forms.py:8
+msgid "Introduzca su consulta"
+msgstr "Enter your query"
+
+#: app/forms.py:10 app/templates/base.html:28
+msgid "Buscar"
+msgstr "Search"
+
+#: app/forms.py:14
+msgid ""
+"Aquí se verán los nombres de los archivos que se van a subir a la "
+"aplicación "
+msgstr "Here you will see the names of the files that are going to be uploaded to the application"
+
+#: app/forms.py:17
+msgid "Enviar archivos"
+msgstr "Send files"
+
+#: app/routes.py:32 app/routes.py:70
+msgid "Debe seleccionar al menos una temática."
+msgstr "You must select at least one theme."
+
+#: app/routes.py:66
+msgid "Debe seleccionar al menos un fichero."
+msgstr "You must select at least one file."
+
+#: app/routes.py:86
+msgid ""
+"Sólo se admiten archivos en formato .txt o .pub, compruebe la extensión de "
+"los siguientes archivos e inténtelo de nuevo: "
+msgstr "Only .txt or .pub files are allowed, check the extension of the following files and try again: "
+
+#: app/routes.py:94
+msgid "Los archivos se han procesado correctamente"
+msgstr "Files have been successfully processed"
+
+#: app/templates/404.html:4
+msgid "Archivo no encontrado"
+msgstr "File not found"
+
+#: app/templates/404.html:5 app/templates/500.html:6
+msgid "Atrás"
+msgstr "Back"
+
+#: app/templates/500.html:4
+msgid "Ha ocurrido un error inesperado"
+msgstr "An unexpected error has occurred"
+
+#: app/templates/500.html:5
+msgid ""
+"Se ha registrado el error y notificado a un administrador. Perdone las "
+"molestias!"
+msgstr "The error has been reported and notified to an administrator. Sorry for the inconvenience!"
+
+#: app/templates/base.html:23
+msgid "Inicio"
+msgstr "Home"
+
+#: app/templates/base.html:27
+msgid "Subir archivos"
+msgstr "Upload files"
+
+#: app/templates/base.html:32
+msgid "Idioma (ES)"
+msgstr "Language (EN)"
+
+#: app/templates/base.html:35
+msgid "en"
+msgstr "es"
+
+#: app/templates/base.html:35
+msgid "English"
+msgstr "Español"
+
+#: app/templates/search.html:29 app/templates/upload.html:31
+msgid "Temas"
+msgstr "Themes"
+
+#: app/templates/upload.html:45
+msgid "Seleccionar archivos"
+msgstr "Select files"
+
+#: app/templates/upload.html:46
+msgid "Examinar..."
+msgstr "Browse..."
+

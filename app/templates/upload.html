@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+    {% if success %}
+        <div class="alert alert-info" role="alert">
+            <p>{{ success }}</p>
+        </div>
+    {% endif %}
+
+    {% if errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for error in errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form class="form form-group" method="post" role="form" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                {{ wtf.form_field(form.names) }}
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div clas="col-md-7">
+                <select class="selectpicker themes-select" id="select-picker" title={{ _('Temas') }} multiple data-actions-box="true">
+                    {% for theme in model %}
+                        {% if theme.id|string in selected_themes %}
+                            <option value="{{ theme.id }}" selected="selected">{{ theme.theme }}</option>
+                        {% else %}
+                            <option value="{{ theme.id }}">{{ theme.theme }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-6 upload-files">
+                <label class="control-label" id="launcher" for="upload_files">{{ _('Seleccionar archivos') }}</label>
+                <input onclick="fileUpload()" type="button" value={{ _('Examinar...') }}>
+            </div>
+            <div class="col-md-2 upload-submit">
+                {{ wtf.form_field(form.submit, class='pull-right') }}
+            </div>
+        </div>
+        <div class="hidden">
+            {{ wtf.form_field(form.theme) }}
+            {{ wtf.form_field(form.upload_files) }}
+        </div>
+    </form>
+    <script type=text/javascript src="{{ url_for('static', filename='js/bootstrap-select.js') }}"></script>
+    <script type=text/javascript>
+    function fileUpload() {
+        $('#launcher').click();
+    }
+
+    var names = null;
+
+    $('#select-picker').on('change',function(){
+        $(this).find("option:selected").each(function() {
+
+            var theme_values = $(this).attr("value");
+            var array = theme_values.split(" ");
+
+            document.getElementById('submit-themes').getElementsByTagName('option')[array[0] - 1].selected = true;
+        });
+
+        $(this).find("option:not(:selected)").each(function() {
+
+            var theme_values = $(this).attr("value");
+            var array = theme_values.split(" ");
+
+            document.getElementById('submit-themes').getElementsByTagName('option')[array[0] - 1].selected = false;
+        });
+    });
+
+    $('#upload_files').change(function(){
+        var files = $('#upload_files').prop("files");
+        names = $.map(files, function(val) { return val.name; });
+        if (names != null) {
+            document.getElementById('names').value = names;
+        } else {
+            $('#names').value = '';
+        }
+    });
+    </script>
+{% endblock %}
