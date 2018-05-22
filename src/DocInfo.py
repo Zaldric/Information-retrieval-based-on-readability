@@ -1,6 +1,7 @@
 import re
 import nltk
 from unidecode import unidecode
+import src.Utils
 
 
 class DocInfo:
@@ -21,7 +22,7 @@ class DocInfo:
         self.phrases += self.sentence_tokenizer.tokenize(body)
 
         for phrase in self.phrases:
-            self.clean_phrases.append(self.stemmer(phrase, stemmer))
+            self.clean_phrases.append(self.stemmer(src.Utils.Utils.clean_text(phrase), stemmer))
 
     def search(self, words):
         i = 0

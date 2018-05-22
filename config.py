@@ -9,3 +9,4 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     LANGUAGES = ['es', 'en']
     SELECTED_LANGUAGE = 'es'
+    BOOKS_PER_PAGE = 10

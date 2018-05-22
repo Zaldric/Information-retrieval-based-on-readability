@@ -97,7 +97,7 @@ class Utils:
         return len(steam_tokens)
 
     def set_document_info(self, path, name):
-        text = self.clean_text(self.process_file(path))
+        text = self.process_file(path)
         score = self.get_score(text)
         doc_info = DocInfo(name, text, score, self.stemmer)
         self.index.add_document(name, doc_info)

@@ -43,14 +43,6 @@
 
 {% block content %}
     <div class="container-fluid">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-info" role="alert">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-        {% endwith %}
-
         <script type=text/javascript src="{{ url_for('static', filename='js/jquery.js') }}"></script>
         {% block app_content %}{% endblock %}
     </div>

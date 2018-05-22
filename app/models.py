@@ -35,3 +35,11 @@ class Model:
             return themes
         else:
             return None
+
+    @staticmethod
+    def get_indexed_books():
+        books = Book.query.all()
+        if books:
+            return books
+        else:
+            return None

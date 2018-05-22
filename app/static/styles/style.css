@@ -20,3 +20,13 @@
 .upload-files {
     padding-top: 15px;
 }
+
+.book-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: blue;
+}
+
+.book-text {
+    font-size: 14px;
+}

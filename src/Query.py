@@ -29,30 +29,31 @@ class Query:
                 self.query[word] = 1.0
 
     def normalize_frequencies(self):
-        max_frequency = max(self.query.items(), key=operator.itemgetter(1))[1]
+        if self.query:
+            max_frequency = max(self.query.items(), key=operator.itemgetter(1))[1]
 
-        for key in self.query.keys():
-            self.query[key] /= max_frequency
+            for key in self.query.keys():
+                self.query[key] /= max_frequency
 
-        wniq_sum = 0.0
+            wniq_sum = 0.0
 
-        for key, value in self.query.items():
-            index_result = self.index.get(key)
-            if index_result:
-                idf = index_result[0]
-                wniq = value * idf
-                wniq_sum += wniq * wniq
-
-        wniq_sum = sqrt(wniq_sum)
-
-        if wniq_sum == 0.0:
-            self.query = dict.fromkeys(self.query, 0.0)
-        else:
             for key, value in self.query.items():
-                if key in self.index.get_index().keys():
-                    idf = self.index.get(key)[0]
-                    wniq = (value * idf) / wniq_sum
-                    self.query[key] = wniq
+                index_result = self.index.get(key)
+                if index_result:
+                    idf = index_result[0]
+                    wniq = value * idf
+                    wniq_sum += wniq * wniq
+
+            wniq_sum = sqrt(wniq_sum)
+
+            if wniq_sum == 0.0:
+                self.query = dict.fromkeys(self.query, 0.0)
+            else:
+                for key, value in self.query.items():
+                    if key in self.index.get_index().keys():
+                        idf = self.index.get(key)[0]
+                        wniq = (value * idf) / wniq_sum
+                        self.query[key] = wniq
 
     def similarities(self):
         if self.query:
