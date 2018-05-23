@@ -30,3 +30,44 @@
 .book-text {
     font-size: 14px;
 }
+
+.btn-secondary {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.level5 {
+    background-color: red;
+    color: #fff;
+    border-color: red;
+    width: 80px;
+}
+
+.level4 {
+    background-color: orange;
+    color: #fff;
+    border-color: orange;
+    width: 80px;
+}
+
+.level3 {
+    background-color: pink;
+    color: #fff;
+    border-color: pink;
+    width: 80px;
+}
+
+.level2 {
+    background-color: greenyellow;
+    color: #fff;
+    border-color: greenyellow;
+    width: 95px;
+}
+
+.level1 {
+    background-color: green;
+    color: #fff;
+    border-color: green;
+    width: 80px;
+}

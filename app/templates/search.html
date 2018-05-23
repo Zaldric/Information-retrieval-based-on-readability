@@ -26,11 +26,70 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div clas="col-md-7">
-                <select class="selectpicker themes-select" title={{ _('Temas') }} id="select-picker" multiple data-actions-box="true" data-width="auto">
+                <select class="selectpicker themes-select" id="select-picker" title={{ _('Temas') }} multiple data-actions-box="true">
                     {% for theme in model %}
-                        <option value="{{ theme.id }}">{{ theme.theme }}</option>
+                        {% if theme.id|string in selected_themes %}
+                            <option value="{{ theme.id }}" selected="selected">{{ theme.theme }}</option>
+                        {% else %}
+                            <option value="{{ theme.id }}">{{ theme.theme }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8" id="search-column">
+                {% if ranking %}
+                    <div class="pull-right">
+                        {% if mode == 'similarity' %}
+                            <button type="button" onclick="window.location.href='/search?mode=readability'" class="btn btn-success pull-right">{{ _('Ordenar por legibilidad') }}</button>
+                        {% elif mode == 'readability' %}
+                            <button type="button" onclick="window.location.href='/search?mode=similarity'" class="btn btn-success pull-right">{{ _('Ordenar por similitud') }}</button>
+                        {% endif %}
+                    </div>
+                    <br>
+                    <br>
+                    {% for book in ranking %}
+                        <a href=/download/{{ book.title }}><p class="book-title">{{ book.title.split('.')[0] }}</p></a>
+                        <div class={{ 'level' ~ book.score_tag[1] }}>
+                            <p class="text-center">{{ book.score_tag[0] }}</p>
+                        </div>
+                        <p class="book-text">{{ book.extract }}</p>
+                    {% endfor %}
+                    <table style="border-collapse:collapse;text-align:left;margin:30px auto 30px" id="nav" role="presentation">
+                        <tbody>
+                            <tr valign="top">
+                                {% if page != 1 %}
+                                    <td><a href="{{ '/search?page=' ~ (page - 1) + '&mode=' + mode }}"><span>{{ _('Anterior') }}</span></a></td>
+                                    <td class="invisible">p</td>
+                                {% endif %}
+
+                                {% for n in range(1, maximum_pages) %}
+                                    {% if n == page %}
+                                        <td><span>{{ n }}</span></td>
+                                    {% else %}
+                                        <td><a href="{{ '/search?page=' ~ n + '&mode=' + mode }}"><span>{{ n }}</span></a></td>
+                                    {% endif %}
+                                    <td class="invisible">p</td>
+                                {% endfor %}
+
+                                {% if page != maximum_pages %}
+                                    <td><a href="{{ '/search?page=' ~ (page + 1) + '&mode=' + mode }}"><span>{{ _('Siguiente') }}</span></a></td>
+                                    <td class="invisible">p</td>
+                                {% endif %}
+                            </tr>
+                        </tbody>
+                    </table>
+                {% else %}
+                    {% if query is not defined and not errors%}
+                        <div class="alert alert-danger" role="alert">
+                            {{ _('No hay ningún resultado para la consulta solicitada.') }}
+                        </div>
+                    {% endif %}
+                {% endif %}
             </div>
             <div class="col-md-3"></div>
         </div>

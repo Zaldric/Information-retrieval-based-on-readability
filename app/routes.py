@@ -35,6 +35,8 @@ def index():
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     form = QueryForm()
+    page = request.args.get('page', 1, type=int)
+    mode = request.args.get('mode', 'similarity', type=str)
     themes = list()
     errors = list()
 
@@ -44,44 +46,49 @@ def search():
     form.theme.choices = themes
 
     if form.is_submitted():
+        app.config['selected_themes'] = selected_themes = form.theme.data
+
         if not form.theme.data:
             errors.append(_('Debe seleccionar al menos una temática.'))
+            app.config['errors'] = errors
+
+        if errors:
+            return render_template('search.html', form=form, model=THEMES, errors=errors, selected_themes=selected_themes)
 
         if form.query.data != '':
             app.config['query'] = form.query.data
-            app.config['themes'] = form.theme.data
-            return redirect(url_for('results'))
+            app.config['ranking'] = QuerySearch(app.config['SELECTED_LANGUAGE'], form.query.data).get_ranks()
         else:
-            if errors:
-                return render_template('search.html', form=form, model=THEMES, errors=errors)
+            return render_template('search.html', form=form, model=THEMES, errors=errors, selected_themes=selected_themes)
 
-    return render_template('search.html', form=form, model=THEMES)
+    if 'ranking' in app.config:
+        form.query.data = app.config['query']
+        if mode == 'similarity':
+            maximum_pages = math.ceil(len(app.config['ranking']['similarity_rank']) / app.config['BOOKS_PER_PAGE'])
 
+            if page > maximum_pages:
+                page = maximum_pages
 
-@app.route('/results', methods=['GET', 'POST'])
-def results():
-    page = request.args.get('page', 1, type=int)
-    mode = request.args.get('mode', 'similarity', type=str)
-    ranking = QuerySearch(app.config['SELECTED_LANGUAGE'], app.config['query']).get_ranks()
+            ranking_range = calculate_range(len(app.config['ranking']['similarity_rank']), page, maximum_pages)
 
-    if mode == 'similarity':
-        maximum_pages = math.ceil(len(ranking['similarity_rank']) / app.config['BOOKS_PER_PAGE'])
+            return render_template('search.html', form=form, model=THEMES, errors=errors, mode=mode,
+                                   selected_themes=app.config['selected_themes'],
+                                   ranking=app.config['ranking']['similarity_rank'][ranking_range[0]:ranking_range[1]],
+                                   page=page, maximum_pages=maximum_pages)
+        else:
+            maximum_pages = math.ceil(len(app.config['ranking']['readability_rank']) / app.config['BOOKS_PER_PAGE'])
 
-        if page > maximum_pages:
-            page = maximum_pages
+            if page > maximum_pages:
+                page = maximum_pages
 
-        ranking_range = calculate_range(len(ranking['similarity_rank']), page, maximum_pages)
+            ranking_range = calculate_range(len(app.config['ranking']['readability_rank']), page, maximum_pages)
 
-        return render_template('results.html', ranking=ranking['similarity_rank'][ranking_range[0]:ranking_range[1]], page=page, maximum_pages=maximum_pages)
+            return render_template('search.html', form=form, model=THEMES, errors=errors, mode=mode,
+                                   selected_themes=app.config['selected_themes'],
+                                   ranking=app.config['ranking']['readability_rank'][ranking_range[0]:ranking_range[1]],
+                                   page=page, maximum_pages=maximum_pages)
     else:
-        maximum_pages = math.ceil(len(ranking['readability_rank']) / app.config['BOOKS_PER_PAGE'])
-
-        if page > maximum_pages:
-            page = maximum_pages
-
-        ranking_range = calculate_range(len(ranking['readability_rank']), page, maximum_pages)
-
-        return render_template('results.html', ranking=ranking['readability_rank'][ranking_range[0]:ranking_range[1]], page=page, maximum_pages=maximum_pages)
+        return render_template('search.html', query='', form=form, model=THEMES)
 
 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -135,7 +142,7 @@ def upload():
 
 @app.route('/update_index')
 def update_index():
-    # When the system have the databse book implemented, change and just load the books in the database
+    # When the system have the database book implemented, change and just load the books in the database
     files = [f for f in listdir('./app/corpus') if isfile(join('./app/corpus', f)) and f[0] != '.']
     files_for_index = list()
 
