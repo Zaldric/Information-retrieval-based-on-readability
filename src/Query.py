@@ -11,7 +11,9 @@ class Query:
 
         util = Utils(language)
         self.index = index
-        cleaned_query = Utils.stemmer(util.get_cleaned_tokens(query), language)
+        self.original_query = util.get_cleaned_tokens(query)
+
+        cleaned_query = Utils.stemmer(self.original_query, language)
 
         self.add_query_words(cleaned_query)
         self.normalize_frequencies()
@@ -89,4 +91,6 @@ class Query:
             words.append(key)
         return words
 
+    def get_original_query(self):
+        return self.original_query
 

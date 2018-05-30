@@ -1,9 +1,65 @@
 {% extends "base.html" %}
 {% block app_content %}
-    <h1>Hi, {{ user.username }}!</h1>
-    <h1>Sign In {{ prueba }}</h1>
-    <script>
-        //document.getElementById('theme').getElementsByTagName('option')[0].selected = true;
-        //document.getElementById('theme').getElementsByTagName('option')[2].selected = true;
-    </script>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10" id="search-column">
+            {% if books %}
+                <br>
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" class="text-center">#</th>
+                        <th scope="col" class="text-center">{{ _('Nombre') }}</th>
+                        <th scope="col" class="text-center">{{ _('Temáticas') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for book, themes in books %}
+                        <tr>
+                            <th scope="row" class="text-center">{{ book.id }}</th>
+                            <td class="text-center"><a href="{{ 'update_themes/' ~ book.id }}" class="
+                                    {% if book.indexed == 0 %} not-indexed {% else %}
+                                                       indexed {% endif %}">{{ book.name.replace('_', ' ') }}</a></td>
+                            <td class="text-center">{{ themes[:-2] }} </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <table style="border-collapse:collapse;text-align:left;margin:30px auto 30px" id="nav"
+                       role="presentation">
+                    <tbody>
+                    <tr valign="top">
+                        {% if page != 1 %}
+                            <td>
+                                <a href="{{ '/index?page=' ~ (page - 1) }}"><span>{{ _('Anterior') }}</span></a>
+                            </td>
+                            <td class="invisible">p</td>
+                        {% endif %}
+
+                        {% for n in range(1, maximum_pages) %}
+                            {% if n == page %}
+                                <td><span>{{ n }}</span></td>
+                            {% else %}
+                                <td><a href="{{ '/index?page=' ~ n }}"><span>{{ n }}</span></a></td>
+                            {% endif %}
+                            <td class="invisible">p</td>
+                        {% endfor %}
+
+                        {% if page != maximum_pages %}
+                            <td>
+                                <a href="{{ '/index?page=' ~ (page + 1) }}"><span>{{ _('Siguiente') }}</span></a>
+                            </td>
+                            <td class="invisible">p</td>
+                        {% endif %}
+                    </tr>
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-danger" role="alert">
+                    {{ _('Aún no hay ningún libro en la aplicación.') }}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-md-2"></div>
+    </div>
 {% endblock %}

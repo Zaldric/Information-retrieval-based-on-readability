@@ -14,6 +14,11 @@
             {% for error in errors %}
                 <p>{{ error }}</p>
             {% endfor %}
+            <ul>
+                {% for existing_file in existing_files %}
+                    <li>{{ existing_file }}</li>
+                {% endfor %}
+            </ul>
         </div>
     {% endif %}
 
@@ -47,6 +52,12 @@
             </div>
             <div class="col-md-2 upload-submit">
                 {{ wtf.form_field(form.submit, class='pull-right') }}
+                <div class="pull-right">
+                {% if success %}
+                    <br>
+                    <button type="button" onclick="window.location.href='/update_index'" class="btn btn-success pull-right">{{ _('Actualizar índice') }}</button>
+                {% endif %}
+            </div>
             </div>
         </div>
         <div class="hidden">

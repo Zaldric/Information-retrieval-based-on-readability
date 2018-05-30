@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_babel import Babel
+
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -24,4 +25,3 @@ from app.models import Model
 
 global MODEL
 MODEL = Model()
-

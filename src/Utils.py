@@ -81,11 +81,10 @@ class Utils:
                 cleaned_tokens.append(token)
         return cleaned_tokens
 
-    def load_words_in_index(self, path, name):
-        file = self.process_file(path)
-        if file is '':
+    def load_words_in_index(self, text, name):
+        if text is '':
             return None
-        cleaned_tokens = self.get_cleaned_tokens(file)
+        cleaned_tokens = self.get_cleaned_tokens(text)
         steam_tokens = list()
 
         for token in cleaned_tokens:
@@ -96,8 +95,7 @@ class Utils:
 
         return len(steam_tokens)
 
-    def set_document_info(self, path, name):
-        text = self.process_file(path)
+    def set_document_info(self, text, name):
         score = self.get_score(text)
         doc_info = DocInfo(name, text, score, self.stemmer)
         self.index.add_document(name, doc_info)

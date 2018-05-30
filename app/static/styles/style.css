@@ -25,10 +25,23 @@
     font-size: 18px;
     font-weight: bold;
     color: blue;
+    display: inline-block;
 }
 
 .book-text {
     font-size: 14px;
+}
+
+.book-missing-words-style {
+    font-size: 12px;
+    color: darkgrey;
+    display: inline-block;
+    padding-right: 5px;
+}
+
+.book-missing-words {
+    text-decoration:line-through;
+    display: inline-block;
 }
 
 .btn-secondary {
@@ -40,34 +53,57 @@
 .level5 {
     background-color: red;
     color: #fff;
+    font-size: 13px;
     border-color: red;
-    width: 80px;
+    width: 95px;
+    border-radius: 10px;
 }
 
 .level4 {
-    background-color: orange;
+    background-color: darkorange;
     color: #fff;
-    border-color: orange;
-    width: 80px;
+    font-size: 13px;
+    border-color: darkorange;
+    width: 95px;
+    border-radius:10px;
 }
 
 .level3 {
-    background-color: pink;
+    background-color: green;
     color: #fff;
-    border-color: pink;
-    width: 80px;
+    font-size: 13px;
+    border-color: green;
+    width: 75px;
+    border-radius: 10px;
 }
 
 .level2 {
-    background-color: greenyellow;
+    background-color: turquoise;
     color: #fff;
-    border-color: greenyellow;
-    width: 95px;
+    font-size: 13px;
+    border-color: turquoise;
+    width: 110px;
+    border-radius: 10px;
 }
 
 .level1 {
-    background-color: green;
+    background-color: mediumpurple;
     color: #fff;
-    border-color: green;
-    width: 80px;
+    font-size: 13px;
+    border-color: mediumpurple;
+    width: 85px;
+    border-radius: 10px;
+}
+
+.thead-dark {
+    background-color: #212429;
+    color: white;
+}
+
+.indexed {
+    color: green;
+}
+
+.not-indexed {
+    color: red;
 }
