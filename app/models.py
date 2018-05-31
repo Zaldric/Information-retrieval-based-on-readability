@@ -40,6 +40,17 @@ class Model:
             return None
 
     @staticmethod
+    def update_themes(book_id, themes):
+        BookThemes.query.filter(BookThemes.book_id == book_id).delete()
+        for theme in themes:
+            db.session.add(BookThemes(book_id=book_id, theme_id=int(theme)))
+        db.session.commit()
+
+    @staticmethod
+    def get_book(book_id):
+        return Books.query.get(book_id)
+
+    @staticmethod
     def get_books():
         return Books.query.all()
 

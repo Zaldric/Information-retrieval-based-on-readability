@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-04-25 17:17+0200\n"
+"POT-Creation-Date: 2018-05-31 13:04+0200\n"
 "PO-Revision-Date: 2018-04-25 17:18+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -30,27 +30,41 @@ msgstr "Search"
 msgid ""
 "Aquí se verán los nombres de los archivos que se van a subir a la "
 "aplicación "
-msgstr "Here you will see the names of the files that are going to be uploaded to the application"
+msgstr ""
+"Here you will see the names of the files that are going to be uploaded to"
+" the application"
 
 #: app/forms.py:17
 msgid "Enviar archivos"
 msgstr "Send files"
 
-#: app/routes.py:32 app/routes.py:70
+#: app/forms.py:22
+msgid "Actualizar"
+msgstr "Update"
+
+#: app/routes.py:81 app/routes.py:153 app/routes.py:238
 msgid "Debe seleccionar al menos una temática."
 msgstr "You must select at least one theme."
 
-#: app/routes.py:66
+#: app/routes.py:149
 msgid "Debe seleccionar al menos un fichero."
 msgstr "You must select at least one file."
 
-#: app/routes.py:86
+#: app/routes.py:174
 msgid ""
-"Sólo se admiten archivos en formato .txt o .pub, compruebe la extensión de "
-"los siguientes archivos e inténtelo de nuevo: "
-msgstr "Only .txt or .pub files are allowed, check the extension of the following files and try again: "
+"Sólo se admiten archivos en formato .txt o .pub, compruebe la extensión "
+"de los siguientes archivos e inténtelo de nuevo: "
+msgstr ""
+"Only .txt or .pub files are allowed, check the extension of the following"
+" files and try again: "
 
-#: app/routes.py:94
+#: app/routes.py:189
+msgid ""
+"Los siguientes libros ya están registrados en el sistema y no se han "
+"procesado:"
+msgstr "The following books are already registered and cannot be processed:"
+
+#: app/routes.py:195
 msgid "Los archivos se han procesado correctamente"
 msgstr "Files have been successfully processed"
 
@@ -70,7 +84,9 @@ msgstr "An unexpected error has occurred"
 msgid ""
 "Se ha registrado el error y notificado a un administrador. Perdone las "
 "molestias!"
-msgstr "The error has been reported and notified to an administrator. Sorry for the inconvenience!"
+msgstr ""
+"The error has been reported and notified to an administrator. Sorry for "
+"the inconvenience!"
 
 #: app/templates/base.html:23
 msgid "Inicio"
@@ -84,23 +100,82 @@ msgstr "Upload files"
 msgid "Idioma (ES)"
 msgstr "Language (EN)"
 
-#: app/templates/base.html:35
+#: app/templates/base.html:36
 msgid "en"
 msgstr "es"
 
-#: app/templates/base.html:35
+#: app/templates/base.html:36
 msgid "English"
 msgstr "Español"
 
-#: app/templates/search.html:29 app/templates/upload.html:31
+#: app/templates/index.html:12 app/templates/update_themes.html:28
+msgid "Nombre"
+msgstr "Name"
+
+#: app/templates/index.html:13 app/templates/update_themes.html:29
+msgid "Temáticas"
+msgstr "Themes"
+
+#: app/templates/index.html:34 app/templates/search.html:76
+msgid "Anterior"
+msgstr "Back"
+
+#: app/templates/index.html:50 app/templates/search.html:93
+msgid "Siguiente"
+msgstr "Next"
+
+#: app/templates/index.html:59
+msgid "Aún no hay ningún libro en la aplicación."
+msgstr "There is still no books in the application"
+
+#: app/templates/index.html:70 app/templates/upload.html:59
+msgid "Actualizar índice"
+msgstr "Update index"
+
+#: app/templates/search.html:29 app/templates/update_themes.html:40
+#: app/templates/upload.html:36
 msgid "Temas"
 msgstr "Themes"
 
-#: app/templates/upload.html:45
+#: app/templates/search.html:50
+msgid "Ordenar por legibilidad"
+msgstr "Sort by readability"
+
+#: app/templates/search.html:53
+msgid "Ordenar por similitud"
+msgstr "Sort by similarity"
+
+#: app/templates/search.html:65
+msgid "Falta: "
+msgstr "Missing: "
+
+#: app/templates/search.html:103
+msgid "No hay ningún resultado para la consulta solicitada."
+msgstr "No results for requested query"
+
+#: app/templates/update_index.html:8
+msgid ""
+"Los siguientes libros no se han podido procesar y no han sido añadidos al"
+" índice:"
+msgstr "The following books are already registered and cannot be added to the index"
+
+#: app/templates/update_index.html:16
+msgid "Todos los libros añadidos al índice!"
+msgstr "All the books indexed!"
+
+#: app/templates/update_themes.html:60
+msgid "Volver"
+msgstr "Back"
+
+#: app/templates/update_themes.html:73
+msgid "ID no válido, el libro no existe en el sistema."
+msgstr "Invalid ID, the book does not exist in the system."
+
+#: app/templates/upload.html:50
 msgid "Seleccionar archivos"
 msgstr "Select files"
 
-#: app/templates/upload.html:46
+#: app/templates/upload.html:51
 msgid "Examinar..."
 msgstr "Browse..."
 

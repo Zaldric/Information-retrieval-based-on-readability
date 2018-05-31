@@ -1,22 +1,22 @@
 {% extends "base.html" %}
 {% block app_content %}
 
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8" id="search-column">
-                {% if instance %}
-                    <p>{{ _('Los siguientes libros no se han podido procesar y no han sido añadidos al índice:') }}</p>
-                    <ul>
-                        {% for book in instance %}
-                            <li>{{ book }}</li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <div class="alert alert-success" role="alert">
-                        {{ _('Todos los libros añadidos al índice!') }}
-                    </div>
-                {% endif %}
-            </div>
-            <div class="col-md-3"></div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8" id="search-column">
+            {% if instance %}
+                <p>{{ _('Los siguientes libros no se han podido procesar y no han sido añadidos al índice:') }}</p>
+                <ul>
+                    {% for book in instance %}
+                        <li>{{ book }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="alert alert-success" role="alert">
+                    {{ _('Todos los libros añadidos al índice!') }}
+                </div>
+            {% endif %}
         </div>
+        <div class="col-md-3"></div>
+    </div>
 {% endblock %}

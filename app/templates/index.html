@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10" id="search-column">
-            {% if books %}
+            {% if are_books %}
                 <br>
                 <table class="table table-striped">
                     <thead class="thead-dark">
@@ -17,7 +17,7 @@
                     {% for book, themes in books %}
                         <tr>
                             <th scope="row" class="text-center">{{ book.id }}</th>
-                            <td class="text-center"><a href="{{ 'update_themes/' ~ book.id }}" class="
+                            <td class="text-center"><a href="{{ 'update_themes/' ~ book.id + '?page=' ~ page }}" class="
                                     {% if book.indexed == 0 %} not-indexed {% else %}
                                                        indexed {% endif %}">{{ book.name.replace('_', ' ') }}</a></td>
                             <td class="text-center">{{ themes[:-2] }} </td>
@@ -62,4 +62,13 @@
         </div>
         <div class="col-md-2"></div>
     </div>
+    {% if index_button %}
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-9">
+                <button type="button" onclick="window.location.href='/update_index'"
+                        class="btn btn-success pull-right">{{ _('Actualizar índice') }}</button>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+    {% if error %}
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10" id="search-column">
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    {% endif %}
+
+    {% if book %}
+        <form class="form form-group update-themes" method="post" role="form">
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8" id="search-column">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="text-center">#</th>
+                            <th scope="col" class="text-center">{{ _('Nombre') }}</th>
+                            <th scope="col" class="text-center">{{ _('Temáticas') }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row" class="center-cell">{{ book.id }}</th>
+                            <td class="center-cell"><a href="{{ 'update_themes/' ~ book.id }}" class="
+                                    {% if book.indexed == 0 %} not-indexed {% else %}
+                                                       indexed {% endif %}">{{ book.name.replace('_', ' ') }}</a></td>
+                            <td class="center-cell">
+                                <select class="selectpicker themes-select center-block" id="select-picker"
+                                        title={{ _('Temas') }} multiple data-actions-box="true">
+                                    {% for theme in model %}
+                                        {% if theme.id|string in selected_themes %}
+                                            <option value="{{ theme.id }}"
+                                                    selected="selected">{{ theme.theme }}</option>
+                                        {% else %}
+                                            <option value="{{ theme.id }}">{{ theme.theme }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="hidden">
+                        {{ wtf.form_field(form.theme) }}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="button" class="pull-left" id="submit" name="back"
+                                   value={{ _('Volver') }} onclick="window.location.href='{{ '/index?page=' ~ page }}'">
+                            {{ wtf.form_field(form.submit, class='pull-right') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </form>
+    {% else %}
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="alert alert-danger" role="alert">
+                    {{ _('ID no válido, el libro no existe en el sistema.') }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+    <script type=text/javascript src="{{ url_for('static', filename='js/bootstrap-select.js') }}"></script>
+    <script type=text/javascript>
+
+        $('#select-picker').on('change', function () {
+            $(this).find("option:selected").each(function () {
+
+                var theme_values = $(this).attr("value");
+                var array = theme_values.split(" ");
+
+                document.getElementById('submit-themes').getElementsByTagName('option')[array[0] - 1].selected = true;
+            });
+
+            $(this).find("option:not(:selected)").each(function () {
+
+                var theme_values = $(this).attr("value");
+                var array = theme_values.split(" ");
+
+                document.getElementById('submit-themes').getElementsByTagName('option')[array[0] - 1].selected = false;
+            });
+        });
+    </script>
+{% endblock %}

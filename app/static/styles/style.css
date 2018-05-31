@@ -107,3 +107,12 @@
 .not-indexed {
     color: red;
 }
+
+.center-cell {
+    text-align:center;
+    vertical-align:middle !important;
+}
+
+.update-themes {
+    padding-top: 50px;
+}

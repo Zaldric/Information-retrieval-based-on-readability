@@ -15,3 +15,8 @@ class UploadDocumentForm(FlaskForm):
     theme = SelectMultipleField(id='submit-themes')
     upload_files = FileField('', id='upload_files', render_kw={"multiple": ""})
     submit = SubmitField(_l('Enviar archivos'))
+
+
+class UpdateThemesForm(FlaskForm):
+    theme = SelectMultipleField(id='submit-themes')
+    submit = SubmitField(_l('Actualizar'))

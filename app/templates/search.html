@@ -26,7 +26,8 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div clas="col-md-7">
-                <select class="selectpicker themes-select" id="select-picker" title={{ _('Temas') }} multiple data-actions-box="true">
+                <select class="selectpicker themes-select" id="select-picker" title={{ _('Temas') }} multiple
+                        data-actions-box="true">
                     {% for theme in model %}
                         {% if theme.id|string in selected_themes %}
                             <option value="{{ theme.id }}" selected="selected">{{ theme.theme }}</option>
@@ -45,47 +46,59 @@
                 {% if ranking %}
                     <div class="pull-right">
                         {% if mode == 'similarity' %}
-                            <button type="button" onclick="window.location.href='/search?mode=readability'" class="btn btn-success pull-right">{{ _('Ordenar por legibilidad') }}</button>
+                            <button type="button" onclick="window.location.href='/search?mode=readability'"
+                                    class="btn btn-success pull-right">{{ _('Ordenar por legibilidad') }}</button>
                         {% elif mode == 'readability' %}
-                            <button type="button" onclick="window.location.href='/search?mode=similarity'" class="btn btn-success pull-right">{{ _('Ordenar por similitud') }}</button>
+                            <button type="button" onclick="window.location.href='/search?mode=similarity'"
+                                    class="btn btn-success pull-right">{{ _('Ordenar por similitud') }}</button>
                         {% endif %}
                     </div>
                     <br>
                     <br>
                     {% for book in ranking %}
-                        <a href={{ url_for('download', filename=book.title) }}><p class="book-title">{{ book.title.split('.')[0] }}</p></a>
-                        <div class={{ "level" ~ book.score_tag[1]}}>
+                        <a href={{ url_for('download', filename=book.title) }}><p
+                                class="book-title">{{ book.title.split('.')[0].replace('_', ' ') }}</p></a>
+                        <div class={{ "level" ~ book.score_tag[1] }}>
                             <p class="text-center">{{ book.score_tag[0] }}</p>
                         </div>
                         <p class="book-text">{{ book.extract | safe }}</p>
-                        <p class="book-missing-words-style">{{ _('Falta: ') }}<p class="book-missing-words-style book-missing-words">{% for missing_word in book.missing_words %} {{' ' + missing_word + ' ' }} {% endfor %}</p></p>
+                        <p class="book-missing-words-style">{{ _('Falta: ') }}
+                        <p class="book-missing-words-style book-missing-words">
+                            {% for missing_word in book.missing_words %} {{ ' ' + missing_word + ' ' }} {% endfor %}</p>
+                        </p>
                     {% endfor %}
-                    <table style="border-collapse:collapse;text-align:left;margin:30px auto 30px" id="nav" role="presentation">
+                    <table style="border-collapse:collapse;text-align:left;margin:30px auto 30px" id="nav"
+                           role="presentation">
                         <tbody>
-                            <tr valign="top">
-                                {% if page != 1 %}
-                                    <td><a href="{{ '/search?page=' ~ (page - 1) + '&mode=' + mode }}"><span>{{ _('Anterior') }}</span></a></td>
-                                    <td class="invisible">p</td>
-                                {% endif %}
+                        <tr valign="top">
+                            {% if page != 1 %}
+                                <td>
+                                    <a href="{{ '/search?page=' ~ (page - 1) + '&mode=' + mode }}"><span>{{ _('Anterior') }}</span></a>
+                                </td>
+                                <td class="invisible">p</td>
+                            {% endif %}
 
-                                {% for n in range(1, maximum_pages) %}
-                                    {% if n == page %}
-                                        <td><span>{{ n }}</span></td>
-                                    {% else %}
-                                        <td><a href="{{ '/search?page=' ~ n + '&mode=' + mode }}"><span>{{ n }}</span></a></td>
-                                    {% endif %}
-                                    <td class="invisible">p</td>
-                                {% endfor %}
-
-                                {% if page != maximum_pages %}
-                                    <td><a href="{{ '/search?page=' ~ (page + 1) + '&mode=' + mode }}"><span>{{ _('Siguiente') }}</span></a></td>
-                                    <td class="invisible">p</td>
+                            {% for n in range(1, maximum_pages) %}
+                                {% if n == page %}
+                                    <td><span>{{ n }}</span></td>
+                                {% else %}
+                                    <td><a href="{{ '/search?page=' ~ n + '&mode=' + mode }}"><span>{{ n }}</span></a>
+                                    </td>
                                 {% endif %}
-                            </tr>
+                                <td class="invisible">p</td>
+                            {% endfor %}
+
+                            {% if page != maximum_pages %}
+                                <td>
+                                    <a href="{{ '/search?page=' ~ (page + 1) + '&mode=' + mode }}"><span>{{ _('Siguiente') }}</span></a>
+                                </td>
+                                <td class="invisible">p</td>
+                            {% endif %}
+                        </tr>
                         </tbody>
                     </table>
                 {% else %}
-                    {% if query is not defined and not errors%}
+                    {% if query is not defined and not errors %}
                         <div class="alert alert-danger" role="alert">
                             {{ _('No hay ningún resultado para la consulta solicitada.') }}
                         </div>
@@ -101,22 +114,22 @@
     <script type=text/javascript src="{{ url_for('static', filename='js/bootstrap-select.js') }}"></script>
     <script type=text/javascript>
 
-    $('#select-picker').on('change',function(){
-        $(this).find("option:selected").each(function() {
-            
-            var theme_values = $(this).attr("value");
-            var array = theme_values.split(" ");
+        $('#select-picker').on('change', function () {
+            $(this).find("option:selected").each(function () {
 
-            document.getElementById('submit-themes').getElementsByTagName('option')[array[0] - 1].selected = true;
+                var theme_values = $(this).attr("value");
+                var array = theme_values.split(" ");
+
+                document.getElementById('submit-themes').getElementsByTagName('option')[array[0] - 1].selected = true;
+            });
+
+            $(this).find("option:not(:selected)").each(function () {
+
+                var theme_values = $(this).attr("value");
+                var array = theme_values.split(" ");
+
+                document.getElementById('submit-themes').getElementsByTagName('option')[array[0] - 1].selected = false;
+            });
         });
-
-        $(this).find("option:not(:selected)").each(function() {
-
-            var theme_values = $(this).attr("value");
-            var array = theme_values.split(" ");
-
-            document.getElementById('submit-themes').getElementsByTagName('option')[array[0] - 1].selected = false;
-        });
-    });
     </script>
 {% endblock %}
