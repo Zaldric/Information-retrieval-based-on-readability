@@ -17,8 +17,6 @@ for theme in THEMES:
     THEME_CHOICES.append((theme.id, theme.theme))
 
 
-# TODO Añadir posibilidad de añadir los libros por orden alfabético
-# TODO Cambios en los botones al ordenar los resultados, para que se vea visualmente cuál es la ordenación actual.
 # TODO Indexación en Inglés.
 # TODO Crontap para la indexación viernes 12 noche.
 
@@ -48,6 +46,7 @@ def index():
     books = MODEL.get_books_for_language(app.config['SELECTED_LANGUAGE'])
     theme_books = list()
     page = request.args.get('page', 1, type=int)
+    sort = request.args.get('sort', '#', type=str)
     maximum_pages = math.ceil(len(books) / app.config['BOOKS_PER_PAGE'])
     books_range = calculate_range(len(books), page, maximum_pages)
     index_button = False
@@ -63,12 +62,17 @@ def index():
         if book.indexed == 0:
             index_button = True
 
-    books_list = list()
-    for i in range(books_range[0], books_range[1] + 1):
-        books_list.append((books[i], theme_books[i]))
+    if sort == 'ASC':
+        books = sorted(books, key=lambda x: x.name)
+    elif sort == 'DESC':
+        books = sorted(books,  key=lambda x: x.name, reverse=True)
 
-    return render_template('index.html', page=page, maximum_pages=maximum_pages, index_button=index_button,
-                           are_books=are_books, books=books_list)
+    book_list = list()
+    for i in range(books_range[0], books_range[1] + 1):
+        book_list.append((books[i], theme_books[i]))
+
+    return render_template('index.html', page=page, maximum_pages=maximum_pages, index_button=index_button, sort=sort,
+                           are_books=are_books, books=book_list)
 
 
 @app.route('/search', methods=['GET', 'POST'])

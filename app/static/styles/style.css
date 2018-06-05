@@ -78,10 +78,10 @@
 }
 
 .level2 {
-    background-color: turquoise;
+    background-color: lightskyblue;
     color: #fff;
     font-size: 13px;
-    border-color: turquoise;
+    border-color: lightskyblue;
     width: 110px;
     border-radius: 10px;
 }
@@ -115,4 +115,12 @@
 
 .update-themes {
     padding-top: 50px;
+}
+
+.table-title {
+    color: white;
+}
+
+.table-title:hover {
+    color: lightskyblue;
 }

@@ -8,8 +8,11 @@
                 <table class="table table-striped">
                     <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center">#</th>
-                        <th scope="col" class="text-center">{{ _('Nombre') }}</th>
+                        <th scope="col" class="text-center"><a class="table-title"
+                                                               href="{{ '/index?page=' ~ page + '&sort=#' }}">#</a></th>
+                        <th scope="col" class="text-center"><a class="table-title"
+                                                               href="{% if sort == 'ASC' %} {{ '/index?page=' ~ page + '&sort=DESC' }} {% else %} {{ '/index?page=' ~ page + '&sort=ASC' }} {% endif %}">{{ _('Nombre') }}</a>
+                        </th>
                         <th scope="col" class="text-center">{{ _('Temáticas') }}</th>
                     </tr>
                     </thead>
@@ -31,7 +34,7 @@
                     <tr valign="top">
                         {% if page != 1 %}
                             <td>
-                                <a href="{{ '/index?page=' ~ (page - 1) }}"><span>{{ _('Anterior') }}</span></a>
+                                <a href="{{ '/index?page=' ~ (page - 1) + '&sort=' + sort }}"><span>{{ _('Anterior') }}</span></a>
                             </td>
                             <td class="invisible">p</td>
                         {% endif %}
@@ -40,14 +43,14 @@
                             {% if n == page %}
                                 <td><span>{{ n }}</span></td>
                             {% else %}
-                                <td><a href="{{ '/index?page=' ~ n }}"><span>{{ n }}</span></a></td>
+                                <td><a href="{{ '/index?page=' ~ n + '&sort=' + sort }}"><span>{{ n }}</span></a></td>
                             {% endif %}
                             <td class="invisible">p</td>
                         {% endfor %}
 
                         {% if page != maximum_pages %}
                             <td>
-                                <a href="{{ '/index?page=' ~ (page + 1) }}"><span>{{ _('Siguiente') }}</span></a>
+                                <a href="{{ '/index?page=' ~ (page + 1) + '&sort=' + sort }}"><span>{{ _('Siguiente') }}</span></a>
                             </td>
                             <td class="invisible">p</td>
                         {% endif %}
