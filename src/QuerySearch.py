@@ -5,13 +5,13 @@ from src.Query import Query
 
 class QuerySearch:
 
-    def __init__(self, language, query):
-        with open('./src/index/index.p', 'rb') as input_route:
+    def __init__(self, language, query, book_by_themes):
+        with open('./src/index/index-' + language + '.p', 'rb') as input_route:
             self.index = pickle.load(input_route)
         self.language = language
         self.query = Query(self.index, query, language)
         self.results = self.query.similarities()
-        a = 9
+        self.book_by_themes = book_by_themes
 
     def get_readability_score(self, value):
         if self.language == 'es':
@@ -33,15 +33,21 @@ class QuerySearch:
         if self.results:
             similarity_rank = list()
             readability_rank = list()
+            if not self.book_by_themes and self.book_by_themes is not None:
+                return None
 
-            for top in range(0, len(self.results)):
-                current_document = self.index.get_documents()[self.results[top][0]]
+            for result in self.results:
+                current_document = self.index.get_documents()[result[0]]
+
+                if self.book_by_themes:
+                    if current_document.get_title() not in self.book_by_themes:
+                        continue
+
                 current_document_info = dict()
-                current_document_info['rank'] = top + 1
-                current_document_info['similarity'] = self.results[top][1]
-                current_document_info['readability_score'] = current_document.get_score()
-                current_document_info['score_tag'] = self.get_readability_score(current_document_info['readability_score'])
                 current_document_info['title'] = current_document.get_title()
+                current_document_info['readability_score'] = current_document.get_score()
+                current_document_info['score_tag'] = self.get_readability_score(
+                    current_document_info['readability_score'])
                 search_result = current_document.search(self.query.get_original_query())
                 extract = search_result[0]
 
@@ -49,7 +55,8 @@ class QuerySearch:
                     extract = re.sub(r"\b%s\b" % word, '<b>' + word + '</b>', extract)
 
                 current_document_info['extract'] = extract
-                current_document_info['missing_words'] = [x for x in self.query.original_query if x not in search_result[1]]
+                current_document_info['missing_words'] = [x for x in self.query.original_query if
+                                                          x not in search_result[1]]
                 similarity_rank.append(current_document_info)
                 readability_rank.append(current_document_info)
 

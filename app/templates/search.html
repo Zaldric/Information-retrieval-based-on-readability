@@ -56,7 +56,7 @@
                     <br>
                     <br>
                     {% for book in ranking %}
-                        <a href={{ url_for('download', filename=book.title) }}><p
+                        <a href={{ url_for('download', filename=book.title) }} target="_blank"><p
                                 class="book-title">{{ book.title.split('.')[0].replace('_', ' ') }}</p></a>
                         <div class={{ "level" ~ book.score_tag[1] }}>
                             <p class="text-center">{{ book.score_tag[0] }}</p>
@@ -78,7 +78,7 @@
                                 <td class="invisible">p</td>
                             {% endif %}
 
-                            {% for n in range(1, maximum_pages) %}
+                            {% for n in range(1, maximum_pages + 1) %}
                                 {% if n == page %}
                                     <td><span>{{ n }}</span></td>
                                 {% else %}
@@ -119,16 +119,29 @@
 
                 var theme_values = $(this).attr("value");
                 var array = theme_values.split(" ");
+                var my_theme;
 
-                document.getElementById('submit-themes').getElementsByTagName('option')[array[0] - 1].selected = true;
+                if ((array[0] % 27) === 0) {
+                    my_theme = 26;
+                } else {
+                    my_theme = (array[0] % 27) - 1;
+                }
+
+                document.getElementById('submit-themes').getElementsByTagName('option')[my_theme].selected = true;
             });
 
             $(this).find("option:not(:selected)").each(function () {
-
                 var theme_values = $(this).attr("value");
                 var array = theme_values.split(" ");
+                var my_theme;
 
-                document.getElementById('submit-themes').getElementsByTagName('option')[array[0] - 1].selected = false;
+                if ((array[0] % 27) === 0) {
+                    my_theme = 26;
+                } else {
+                    my_theme = (array[0] % 27) - 1;
+                }
+
+                document.getElementById('submit-themes').getElementsByTagName('option')[my_theme].selected = false;
             });
         });
     </script>

@@ -52,13 +52,17 @@
             </div>
             <div class="col-md-2 upload-submit">
                 {{ wtf.form_field(form.submit, class='pull-right') }}
-                <div class="pull-right">
-                    {% if success %}
-                        <br>
-                        <button type="button" onclick="window.location.href='/update_index'"
-                                class="btn btn-success pull-right">{{ _('Actualizar índice') }}</button>
-                    {% endif %}
             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10">
+                {% if success %}
+                    <br>
+                    <div class="pull-right">
+                        <button type="button" onclick="window.location.href='/update_index'"
+                            class="btn btn-success pull-right">{{ _('Actualizar índice') }}</button>
+                    </div>
+                {% endif %}
             </div>
         </div>
         <div class="hidden">
@@ -74,23 +78,36 @@
 
     var names = null;
 
-    $('#select-picker').on('change',function(){
-        $(this).find("option:selected").each(function() {
+    $('#select-picker').on('change', function () {
+            $(this).find("option:selected").each(function () {
 
-            var theme_values = $(this).attr("value");
-            var array = theme_values.split(" ");
+                var theme_values = $(this).attr("value");
+                var array = theme_values.split(" ");
+                var my_theme;
 
-            document.getElementById('submit-themes').getElementsByTagName('option')[array[0] - 1].selected = true;
+                if ((array[0] % 27) === 0) {
+                    my_theme = 26;
+                } else {
+                    my_theme = (array[0] % 27) - 1;
+                }
+
+                document.getElementById('submit-themes').getElementsByTagName('option')[my_theme].selected = true;
+            });
+
+            $(this).find("option:not(:selected)").each(function () {
+                var theme_values = $(this).attr("value");
+                var array = theme_values.split(" ");
+                var my_theme;
+
+                if ((array[0] % 27) === 0) {
+                    my_theme = 26;
+                } else {
+                    my_theme = (array[0] % 27) - 1;
+                }
+
+                document.getElementById('submit-themes').getElementsByTagName('option')[my_theme].selected = false;
+            });
         });
-
-        $(this).find("option:not(:selected)").each(function() {
-
-            var theme_values = $(this).attr("value");
-            var array = theme_values.split(" ");
-
-            document.getElementById('submit-themes').getElementsByTagName('option')[array[0] - 1].selected = false;
-        });
-    });
 
     $('#upload_files').change(function(){
         var files = $('#upload_files').prop("files");

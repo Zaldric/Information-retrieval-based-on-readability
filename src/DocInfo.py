@@ -19,7 +19,6 @@ class DocInfo:
         self.set_phrases(body, stemmer)
 
     def set_phrases(self, body, stemmer):
-        self.phrases.append(self.title)
         self.phrases += self.sentence_tokenizer.tokenize(body)
 
         for phrase in self.phrases:

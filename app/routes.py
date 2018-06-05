@@ -10,14 +10,14 @@ from src.IndexFileCreator import IndexFileCreator
 from src.QuerySearch import QuerySearch
 from flask_babel import _
 
-THEMES = MODEL.get_themes()
+THEMES = MODEL.get_themes(app.config['SELECTED_LANGUAGE'])
 THEME_CHOICES = list()
 
 for theme in THEMES:
     THEME_CHOICES.append((theme.id, theme.theme))
 
 
-# TODO Añadir búsqueda filtrada por temáticas (después de hablarlo con Salud).
+# TODO Añadir posibilidad de añadir los libros por orden alfabético
 # TODO Cambios en los botones al ordenar los resultados, para que se vea visualmente cuál es la ordenación actual.
 # TODO Indexación en Inglés.
 # TODO Crontap para la indexación viernes 12 noche.
@@ -76,32 +76,25 @@ def search():
     form = QueryForm()
     page = request.args.get('page', 1, type=int)
     mode = request.args.get('mode', 'similarity', type=str)
-    errors = list()
 
     form.theme.choices = THEME_CHOICES
 
     if form.is_submitted():
         app.config['selected_themes'] = selected_themes = form.theme.data
 
-        if not form.theme.data:
-            errors.append(_('Debe seleccionar al menos una temática.'))
-            app.config['errors'] = errors
-
-        if errors:
-            return render_template('search.html', form=form, model=THEMES, errors=errors,
-                                   selected_themes=selected_themes)
-
         if form.query.data != '':
+            books_by_themes = MODEL.get_thematic_books(selected_themes) if selected_themes else None
+
             app.config['query'] = form.query.data
-            app.config['ranking'] = QuerySearch(app.config['SELECTED_LANGUAGE'], form.query.data).get_ranks()
+            app.config['ranking'] = QuerySearch(app.config['SELECTED_LANGUAGE'], form.query.data,
+                                                books_by_themes).get_ranks()
         else:
-            return render_template('search.html', query='', form=form, model=THEMES, errors=errors,
-                                   selected_themes=selected_themes)
+            return render_template('search.html', query='', form=form, model=THEMES, selected_themes=selected_themes)
 
     if 'ranking' in app.config:
 
         if app.config['ranking'] is None:
-            return render_template('search.html', form=form, model=THEMES, errors=errors,
+            return render_template('search.html', form=form, model=THEMES,
                                    selected_themes=app.config['selected_themes'])
 
         form.query.data = app.config['query']
@@ -114,7 +107,7 @@ def search():
 
             ranking_range = calculate_range(len(app.config['ranking']['similarity_rank']), page, maximum_pages)
 
-            return render_template('search.html', form=form, model=THEMES, errors=errors, mode=mode,
+            return render_template('search.html', form=form, model=THEMES, mode=mode,
                                    selected_themes=app.config['selected_themes'],
                                    ranking=app.config['ranking']['similarity_rank'][ranking_range[0]:ranking_range[1]],
                                    page=page, maximum_pages=maximum_pages)
@@ -126,7 +119,7 @@ def search():
 
             ranking_range = calculate_range(len(app.config['ranking']['readability_rank']), page, maximum_pages)
 
-            return render_template('search.html', form=form, model=THEMES, errors=errors, mode=mode,
+            return render_template('search.html', form=form, model=THEMES, mode=mode,
                                    selected_themes=app.config['selected_themes'],
                                    ranking=app.config['ranking']['readability_rank'][ranking_range[0]:ranking_range[1]],
                                    page=page, maximum_pages=maximum_pages)
@@ -168,7 +161,7 @@ def upload():
             if '.txt' in filename or '.epub' in filename:
                 if valid_theme:
                     if MODEL.is_uploaded(filename.split('.')[0]):
-                        file.save(os.path.join(app.root_path, 'corpus', filename))
+                        file.save(os.path.join(app.root_path, 'corpus/' + app.config['SELECTED_LANGUAGE'], filename))
                         saved_files.append(filename)
                     else:
                         existing_files.append(filename)
@@ -228,7 +221,7 @@ def update_index():
 
 @app.route('/download/<path:filename>', methods=['GET', 'POST'])
 def download(filename):
-    return send_file('corpus/' + filename, attachment_filename=filename)
+    return send_file('corpus/' + app.config['SELECTED_LANGUAGE'] + '/' + filename, attachment_filename=filename)
 
 
 @app.route('/update_themes/')
@@ -265,6 +258,17 @@ def update_themes(book_id):
 @app.route('/language/<previous>/<lang>')
 def language(previous, lang):
     if lang in app.config['LANGUAGES'] and app.config['SELECTED_LANGUAGE'] != lang:
+        app.config.pop('ranking', None)
+        app.config.pop('query', None)
+        app.config.pop('query', None)
         app.config['SELECTED_LANGUAGE'] = lang
+
+        global THEMES, THEME_CHOICES
+        THEMES = MODEL.get_themes(app.config['SELECTED_LANGUAGE'])
+        THEME_CHOICES.clear()
+
+        for language_theme in THEMES:
+            THEME_CHOICES.append((language_theme.id, language_theme.theme))
+
         refresh()
     return redirect(url_for(previous))

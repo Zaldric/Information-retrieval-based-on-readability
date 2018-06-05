@@ -23,7 +23,8 @@ class BookThemes(db.Model):
 
 class Themes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    theme = db.Column(db.String(30), index=True, unique=True)
+    theme = db.Column(db.String(30), index=True, unique=False)
+    language = db.Column(db.String(3), index=True, unique=False)
 
     def __repr__(self):
         return '{}, {}>'.format(self.id, self.theme)
@@ -32,8 +33,8 @@ class Themes(db.Model):
 class Model:
 
     @staticmethod
-    def get_themes():
-        themes = Themes.query.all()
+    def get_themes(language):
+        themes = Themes.query.filter(Themes.language == language).all()
         if themes:
             return themes
         else:
@@ -61,6 +62,18 @@ class Model:
     @staticmethod
     def get_book_themes(book_id):
         return BookThemes.query.filter((BookThemes.book_id == book_id)).all()
+
+    @staticmethod
+    def get_thematic_books(themes):
+        book_ids, book_names = list(), list()
+
+        for selected_books in BookThemes.query.distinct(BookThemes.book_id).filter(BookThemes.theme_id.in_(themes)).all():
+            book_ids.append(selected_books)
+
+        for book_id in book_ids:
+            book_names.append(Books.query.filter(Books.id == book_id.book_id).first().name)
+
+        return book_names
 
     @staticmethod
     def add_book(book, lang):

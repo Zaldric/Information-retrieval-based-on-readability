@@ -85,16 +85,29 @@
 
                 var theme_values = $(this).attr("value");
                 var array = theme_values.split(" ");
+                var my_theme;
 
-                document.getElementById('submit-themes').getElementsByTagName('option')[array[0] - 1].selected = true;
+                if ((array[0] % 27) === 0) {
+                    my_theme = 26;
+                } else {
+                    my_theme = (array[0] % 27) - 1;
+                }
+
+                document.getElementById('submit-themes').getElementsByTagName('option')[my_theme].selected = true;
             });
 
             $(this).find("option:not(:selected)").each(function () {
-
                 var theme_values = $(this).attr("value");
                 var array = theme_values.split(" ");
+                var my_theme;
 
-                document.getElementById('submit-themes').getElementsByTagName('option')[array[0] - 1].selected = false;
+                if ((array[0] % 27) === 0) {
+                    my_theme = 26;
+                } else {
+                    my_theme = (array[0] % 27) - 1;
+                }
+
+                document.getElementById('submit-themes').getElementsByTagName('option')[my_theme].selected = false;
             });
         });
     </script>

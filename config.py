@@ -9,5 +9,5 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     LANGUAGES = ['es', 'en']
     SELECTED_LANGUAGE = 'es'
-    BOOKS_PER_PAGE = 20
+    BOOKS_PER_PAGE = 15
     BOOKS_PER_PAGE_IN_SEARCH = 10
