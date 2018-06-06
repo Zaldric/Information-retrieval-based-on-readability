@@ -16,8 +16,6 @@ THEME_CHOICES = list()
 for theme in THEMES:
     THEME_CHOICES.append((theme.id, theme.theme))
 
-
-# TODO Indexación en Inglés.
 # TODO Crontap para la indexación viernes 12 noche.
 
 

@@ -50,6 +50,7 @@ class Utils:
     def clean_text(text):
         text = unidecode.unidecode(text.lower())
         text = re.sub('[^a-z0-9-]', ' ', text)
+
         return text
 
     def load_words(self, words, document):
@@ -108,8 +109,11 @@ class Utils:
             syllables = len(re.findall('[aeiou]', clean_text))
             score = 206.835 - (62.3 * (syllables / words)) - (words / sentences)
             return score
-        else:
-            score = None
+        elif self.language == 'en':
+            total_words = len(text.split())
+            characters = len("".join(self.clean_text(text).split()))
+            sentences = len(self.sentence_tokenizer.tokenize(text))
+            score = round((4.71 * (characters / total_words)) + (0.5 * (total_words / sentences)) - 21.43)
         return score
 
     def get_index(self):

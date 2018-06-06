@@ -1,3 +1,4 @@
+import os
 import pickle
 import re
 from src.Query import Query
@@ -6,12 +7,15 @@ from src.Query import Query
 class QuerySearch:
 
     def __init__(self, language, query, book_by_themes):
-        with open('./src/index/index-' + language + '.p', 'rb') as input_route:
-            self.index = pickle.load(input_route)
-        self.language = language
-        self.query = Query(self.index, query, language)
-        self.results = self.query.similarities()
-        self.book_by_themes = book_by_themes
+        if os.path.isfile('./src/index/index-' + language + '.p'):
+            with open('./src/index/index-' + language + '.p', 'rb') as input_route:
+                self.index = pickle.load(input_route)
+            self.language = language
+            self.query = Query(self.index, query, language)
+            self.results = self.query.similarities()
+            self.book_by_themes = book_by_themes
+        else:
+            self.results = None
 
     def get_readability_score(self, value):
         if self.language == 'es':
@@ -28,6 +32,48 @@ class QuerySearch:
                 return 'Bastante fácil', 2
 
             return 'Muy fácil', 1
+
+        if self.language == 'en':
+            if value == 1:
+                return 'Kindergarten', 6
+
+            if value == 2:
+                return 'First Grade', 7
+
+            if value == 3:
+                return 'Second Grade', 8
+
+            if value == 4:
+                return 'Third Grade', 9
+
+            if value == 5:
+                return 'Fourth Grade', 10
+
+            if value == 6:
+                return 'Fifth Grade', 11
+
+            if value == 7:
+                return 'Sixth Grade', 12
+
+            if value == 8:
+                return 'Seventh Grade', 13
+
+            if value == 9:
+                return 'Eighth Grade', 14
+
+            if value == 10:
+                return 'Ninth Grade', 15
+
+            if value == 11:
+                return 'Tenth Grade', 16
+
+            if value == 12:
+                return 'Eleventh grade', 17
+
+            if value == 13:
+                return 'Twelfth grade', 18
+
+            return 'College', 19
 
     def get_ranks(self):
         if self.results:

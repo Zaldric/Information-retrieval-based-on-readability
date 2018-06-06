@@ -62,10 +62,15 @@
                             <p class="text-center">{{ book.score_tag[0] }}</p>
                         </div>
                         <p class="book-text">{{ book.extract | safe }}</p>
-                        <p class="book-missing-words-style">{{ _('Falta: ') }}
-                        <p class="book-missing-words-style book-missing-words">
-                            {% for missing_word in book.missing_words %} {{ ' ' + missing_word + ' ' }} {% endfor %}</p>
-                        </p>
+                        {% if book.missing_words %}
+                            <p class="book-missing-words-style">{{ _('Falta: ') }}
+                            <p class="book-missing-words-style book-missing-words">
+                                {% for missing_word in book.missing_words %}
+                                    {{ ' ' + missing_word + ' ' }} {% endfor %}</p>
+                            </p>
+                        {% else %}
+                            <br>
+                        {% endif %}
                     {% endfor %}
                     <table style="border-collapse:collapse;text-align:left;margin:30px auto 30px" id="nav"
                            role="presentation">

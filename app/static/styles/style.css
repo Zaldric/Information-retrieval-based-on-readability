@@ -50,6 +50,132 @@
     border-color: #6c757d;
 }
 
+.level19 {
+    background-color: red;
+    color: #fff;
+    font-size: 13px;
+    border-color: red;
+    width: 95px;
+    border-radius: 10px;
+}
+
+.level18 {
+    background-color: orangered;
+    color: #fff;
+    font-size: 13px;
+    border-color: orangered;
+    width: 95px;
+    border-radius: 10px;
+}
+
+.level17 {
+    background-color: darkorange;
+    color: #fff;
+    font-size: 13px;
+    border-color: darkorange;
+    width: 95px;
+    border-radius: 10px;
+}
+
+.level16 {
+    background-color: orange;
+    color: #fff;
+    font-size: 13px;
+    border-color: orange;
+    width: 95px;
+    border-radius: 10px;
+}
+
+.level15 {
+    background-color: darkgreen;
+    color: #fff;
+    font-size: 13px;
+    border-color: darkgreen;
+    width: 95px;
+    border-radius: 10px;
+}
+
+.level14 {
+    background-color: forestgreen;
+    color: #fff;
+    font-size: 13px;
+    border-color: forestgreen;
+    width: 95px;
+    border-radius: 10px;
+}
+
+.level13 {
+    background-color: darkseagreen;
+    color: #fff;
+    font-size: 13px;
+    border-color: darkseagreen;
+    width: 95px;
+    border-radius: 10px;
+}
+
+.level12 {
+    background-color: dodgerblue;
+    color: #fff;
+    font-size: 13px;
+    border-color: dodgerblue;
+    width: 95px;
+    border-radius: 10px;
+}
+
+.level11 {
+    background-color: royalblue;
+    color: #fff;
+    font-size: 13px;
+    border-color: royalblue;
+    width: 95px;
+    border-radius: 10px;
+}
+
+.level10 {
+    background-color: deepskyblue;
+    color: #fff;
+    font-size: 13px;
+    border-color: deepskyblue;
+    width: 95px;
+    border-radius: 10px;
+}
+
+.level9 {
+    background-color: skyblue;
+    color: #fff;
+    font-size: 13px;
+    border-color: skyblue;
+    width: 95px;
+    border-radius: 10px;
+}
+
+.level8 {
+    background-color: lightskyblue;
+    color: #fff;
+    font-size: 13px;
+    border-color: lightskyblue;
+    width: 95px;
+    border-radius: 10px;
+}
+
+.level7 {
+    background-color: rebeccapurple;
+    color: #fff;
+    font-size: 13px;
+    border-color: rebeccapurple;
+    width: 95px;
+    border-radius: 10px;
+}
+
+.level6 {
+    background-color: mediumpurple;
+    color: #fff;
+    font-size: 13px;
+    border-color: mediumpurple;
+    width: 95px;
+    border-radius: 10px;
+}
+
 .level5 {
     background-color: red;
     color: #fff;
