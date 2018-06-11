@@ -78,10 +78,10 @@
 }
 
 .level16 {
-    background-color: orange;
+    background-color: lightcoral;
     color: #fff;
     font-size: 13px;
-    border-color: orange;
+    border-color: lightcoral;
     width: 95px;
     border-radius: 10px;
 }
@@ -114,19 +114,19 @@
 }
 
 .level12 {
-    background-color: dodgerblue;
+    background-color: royalblue;
     color: #fff;
     font-size: 13px;
-    border-color: dodgerblue;
+    border-color: royalblue;
     width: 95px;
     border-radius: 10px;
 }
 
 .level11 {
-    background-color: royalblue;
+    background-color: dodgerblue;
     color: #fff;
     font-size: 13px;
-    border-color: royalblue;
+    border-color: dodgerblue;
     width: 95px;
     border-radius: 10px;
 }
@@ -141,10 +141,10 @@
 }
 
 .level9 {
-    background-color: skyblue;
+    background-color: turquoise;
     color: #fff;
     font-size: 13px;
-    border-color: skyblue;
+    border-color: turquoise;
     width: 95px;
     border-radius: 10px;
 }

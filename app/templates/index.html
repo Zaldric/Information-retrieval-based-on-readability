@@ -9,9 +9,9 @@
                     <thead class="thead-dark">
                     <tr>
                         <th scope="col" class="text-center"><a class="table-title"
-                                                               href="{{ '/index?page=' ~ page + '&sort=#' }}">#</a></th>
+                                                               href="{{ '/index?page=' ~ page + '&sort=#' }}"># ↓</a></th>
                         <th scope="col" class="text-center"><a class="table-title"
-                                                               href="{% if sort == 'ASC' %} {{ '/index?page=' ~ page + '&sort=DESC' }} {% else %} {{ '/index?page=' ~ page + '&sort=ASC' }} {% endif %}">{{ _('Nombre') }}</a>
+                                                               href="{% if sort == 'ASC' %} {{ '/index?page=' ~ page + '&sort=DESC' }} {% else %} {{ '/index?page=' ~ page + '&sort=ASC' }} {% endif %}">{{ _('Nombre') + ' ' + '↓'}}</a>
                         </th>
                         <th scope="col" class="text-center">{{ _('Temáticas') }}</th>
                     </tr>

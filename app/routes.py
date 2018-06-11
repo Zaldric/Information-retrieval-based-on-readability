@@ -16,8 +16,6 @@ THEME_CHOICES = list()
 for theme in THEMES:
     THEME_CHOICES.append((theme.id, theme.theme))
 
-# TODO Crontap para la indexación viernes 12 noche.
-
 
 def calculate_range(total_elements, page, maximum_pages):
     if total_elements < app.config['BOOKS_PER_PAGE']:
@@ -114,16 +112,21 @@ def search():
                                    ranking=app.config['ranking']['similarity_rank'][ranking_range[0]:ranking_range[1]],
                                    page=page, maximum_pages=maximum_pages)
         else:
-            maximum_pages = math.ceil(len(app.config['ranking']['readability_rank']) / app.config['BOOKS_PER_PAGE'])
+            if app.config['SELECTED_LANGUAGE'] == 'en':
+                ranking = list(reversed(app.config['ranking']['readability_rank']))
+            else:
+                ranking = app.config['ranking']['readability_rank']
+
+            maximum_pages = math.ceil(len(ranking) / app.config['BOOKS_PER_PAGE'])
 
             if page > maximum_pages:
                 page = maximum_pages
 
-            ranking_range = calculate_range(len(app.config['ranking']['readability_rank']), page, maximum_pages)
+            ranking_range = calculate_range(len(ranking), page, maximum_pages)
 
             return render_template('search.html', form=form, model=THEMES, mode=mode,
                                    selected_themes=app.config['selected_themes'],
-                                   ranking=app.config['ranking']['readability_rank'][ranking_range[0]:ranking_range[1]],
+                                   ranking=ranking[ranking_range[0]:ranking_range[1]],
                                    page=page, maximum_pages=maximum_pages)
     else:
         return render_template('search.html', query='', form=form, model=THEMES)
